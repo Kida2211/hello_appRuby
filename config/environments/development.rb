@@ -79,6 +79,5 @@ Rails.application.configure do
   # Allow requests from our preview domain.
   pf_host = "#{ENV['CODESPACE_NAME']}-3000.#{pf_domain}"
   config.hosts << pf_host
-
   config.action_cable.allowed_request_origins = ["https://#{pf_host}"]
 end

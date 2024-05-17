@@ -11,5 +11,6 @@ module ActiveSupport
     fixtures :all
 
     # Add more helper methods to be used by all tests here...
+    # Setup fixtures :all include ApplicationHelper
   end
 end

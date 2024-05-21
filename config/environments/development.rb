@@ -61,7 +61,14 @@ Rails.application.configure do
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
+
+  # Configure allowed hosts
   config.hosts << "fuzzy-giggle-p6r76q9j47wh6g74-3001.app.github.dev"
+  config.hosts << "localhost"
+  config.hosts << "localhost:3001"
+
+  # Disable forgery protection origin check in development
+  config.action_controller.forgery_protection_origin_check = false
   
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true

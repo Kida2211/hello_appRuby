@@ -66,16 +66,16 @@ p {
   }
 }
 
-/* footer */
+/* Footer styles */
 footer {
   margin-top: 45px;
   padding-top: 5px;
-  border-top: 1px solid $gray-medium-light; /* Changed to use the variable */
-  color: $gray-medium-light; /* Changed to use the variable */
+  border-top: 1px solid $gray-medium-light; /* Placeholder for variable */
+  color: $gray-medium-light; /* Placeholder for variable */
   a {
-    color: $gray-medium-light; /* Changed to use the variable */
+    color: $gray-medium-light; /* Placeholder for variable */
     &:hover {
-      color: darken($gray-medium-light, 10%); /* Changed to use the variable */
+      color: darken($gray-medium-light, 10%); /* Placeholder for variable */
     }
   }
   small {
@@ -89,7 +89,25 @@ footer {
       margin-left: 15px;
     }
   }
+  
+  /* Additional styles for footer within media query */
+  @media (max-width: 800px) {
+    small {
+      display: block;
+      float: none;
+      margin-bottom: 1em;
+    }
+    ul {
+      float: none;
+      padding: 0;
+      li {
+        float: none;
+        margin-left: 0;
+      }
+    }
+  }
 }
+
 
 /* Miscellaneous */
 
@@ -176,4 +194,10 @@ input {
   .form-control  { 
     color : $state-danger-text; 
   } 
+}
+
+/*  Dropdown  menu  */
+
+.dropdown-menu.active  { 
+  display :  block ; 
 }

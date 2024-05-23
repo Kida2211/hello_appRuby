@@ -14,20 +14,23 @@ gem "jbuilder", "2.11.5"
 gem "puma", "5.6.8"
 gem "bootsnap", "1.16.0", require: false
 gem "sqlite3", "1.6.1"
-group :production do gem "pg" , "1.3.5"
 
-group:development, :test do
+group :production do
+  gem "pg", "1.3.5"
+end
+
+group :development, :test do
   gem "debug", "1.7.1", platforms: %i[mri mingw x64_mingw]
 end
 
-group:development do
+group :development do
   gem "web-console", "4.2.0"
   gem "solargraph", "0.50.0"
   gem "irb", "1.10.0"
   gem "repl_type_completor", "0.1.2"
 end
 
-group:test do
+group :test do
   gem "capybara", "3.38.0"
   gem "selenium-webdriver", "4.8.3"
   gem "webdrivers", "5.2.0"
@@ -39,4 +42,4 @@ group:test do
 end
 
 # On Windows you need to include the tzinfo-data gem for timezone information
-# gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
+gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]

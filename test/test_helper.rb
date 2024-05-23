@@ -1,16 +1,17 @@
-ENV["RAILS_ENV"] ||= "test"
-require_relative "../config/environment"
-require "rails/test_help"
+ENV['RAILS_ENV'] ||= 'test'
+# Load Rails
+require_relative '../config/environment'
+require 'rails/test_help'
 
-module ActiveSupport
-  class TestCase
-    # Run tests in parallel with specified workers
-    parallelize(workers: :number_of_processors)
+class ActiveSupport::TestCase
+  # Run tests in parallel with specified number of workers
+  parallelize(workers: :number_of_processors)
+  
+  # Set up all fixtures in test/fixtures/*.yml
+  fixtures :all
 
-    # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-    fixtures :all
-
-    # Add more helper methods to be used by all tests here...
-    # Setup fixtures :all include ApplicationHelper
+  # Return true if the test user is logged in
+  def is_logged_in?
+    !session[:user_id].nil?
   end
 end

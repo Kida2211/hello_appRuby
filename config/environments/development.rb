@@ -38,7 +38,6 @@ Rails.application.configure do
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
-
   config.action_mailer.perform_caching = false
 
   # Print deprecation notices to the Rails logger.
@@ -63,22 +62,12 @@ Rails.application.configure do
   config.assets.quiet = true
 
   # Configure allowed hosts
-  config.hosts << "fuzzy-giggle-p6r76q9j47wh6g74-3001.app.github.dev"
   config.hosts << "localhost"
-  config.hosts << "localhost:3001"
+  config.hosts << "localhost:3000"
 
   # Disable forgery protection origin check in development
   config.action_controller.forgery_protection_origin_check = false
   
-  # Raises error for missing translations.
-  # config.i18n.raise_on_missing_translations = true
-
-  # Annotate rendered view with file names.
-  # config.action_view.annotate_rendered_view_with_filenames = true
-
-  # Uncomment if you wish to allow Action Cable access from any origin.
-  # config.action_cable.disable_request_forgery_protection = true
-
-  # Raise error when a before_action's only/except options reference missing actions
-  # config.action_controller.raise_on_missing_callback_actions = true
+  # Set default URL options for Action Mailer
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 end

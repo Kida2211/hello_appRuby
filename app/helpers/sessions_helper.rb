@@ -1,20 +1,31 @@
 module SessionsHelper
-  # Log in with the passed user
+  # Log in with the given user
   def log_in(user)
     session[:user_id] = user.id
+    session[:session_token] = user.session_token # Protect against session replay attacks
   end
 
-  # Remember the user in a persistent session
+  # Store the user in a persistent session
   def remember(user)
     user.remember
     cookies.permanent.encrypted[:user_id] = user.id
     cookies.permanent[:remember_token] = user.remember_token
   end
 
+  # Forget a persistent session
+  def forget(user)
+    user.forget
+    cookies.delete(:user_id)
+    cookies.delete(:remember_token)
+  end
+
   # Return the user corresponding to the remember token cookie
   def current_user
     if (user_id = session[:user_id])
-      @current_user ||= User.find_by(id: user_id)
+      user = User.find_by(id: user_id)
+      if user && session[:session_token] == user.session_token
+        @current_user = user
+      end
     elsif (user_id = cookies.encrypted[:user_id])
       user = User.find_by(id: user_id)
       if user && user.authenticated?(cookies[:remember_token])
@@ -22,8 +33,6 @@ module SessionsHelper
         @current_user = user
       end
     end
-    puts "current_user: #{@current_user.inspect}"
-    @current_user
   end
 
   # Returns true if the user is logged in, false otherwise
@@ -31,20 +40,19 @@ module SessionsHelper
     !current_user.nil?
   end
 
-  # Destroy the persistent session
-  def forget(user)
-    user.forget
-    cookies.delete(:user_id)
-    cookies.delete(:remember_token)
+  # Returns true if the passed user is the current user
+  def current_user?(user)
+    user && user == current_user
   end
 
-  # Log out the current user
+  # Store the URL that was attempted to be accessed
+  def store_location
+    session[:forwarding_url] = request.original_url if request.get?
+  end
+
   def log_out
-    if logged_in?
-      forget(current_user)
-      reset_session
-      @current_user = nil
-    end
-    puts "After log_out: session = #{session.to_hash.inspect}, cookies = #{cookies.to_hash.inspect}"
+    forget(current_user)
+    reset_session
+    @current_user = nil
   end
 end

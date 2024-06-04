@@ -1,7 +1,8 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token  # Define remember_token attribute
+  attr_accessor :remember_token, :activation_token  # Define remember_token and activation_token attributes
 
-  before_save { self.email = email.downcase }
+  before_save :downcase_email
+  before_create :create_activation_digest
 
   validates :name, presence: true, length: { maximum: 50 }
 
@@ -30,9 +31,10 @@ class User < ApplicationRecord
   end
 
   # Returns true if the token passed in matches the digest.
-  def authenticated?(remember_token)
-    return false if remember_digest.nil?
-    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  def authenticated?(attribute, token)
+    digest = send("#{attribute}_digest")
+    return false if digest.nil?
+    BCrypt::Password.new(digest).is_password?(token)
   end
 
   # Forget the user's login information.
@@ -45,12 +47,17 @@ class User < ApplicationRecord
     remember_digest || remember
   end
 
-  attr_accessor :remember_token, :activation_token
+  # Activate account 
+  def activate
+    update_columns(activated: true, activated_at: Time.zone.now)
+  end
 
-  before_save :downcase_email
-  before_create :create_activation_digest
+  # Send activation email 
+  def send_activation_email 
+    UserMailer.account_activation(self).deliver_now 
+  end
 
-  validates :name, presence: true, length: { maximum: 50 }
+  private 
 
   # Make the email address all lowercase
   def downcase_email
@@ -62,16 +69,4 @@ class User < ApplicationRecord
     self.activation_token = User.new_token
     self.activation_digest = User.digest(activation_token)
   end
-
- # Activate account 
-  def activate
-    update_columns(activated: true, activated_at: Time.zone.now)
-  end
-
-  # Send activation email 
-  def  send_activation_email 
-    UserMailer.account_activation( self ).deliver_now 
-  end
-
-  private 
 end

@@ -12,7 +12,7 @@ class UserMailerPreview < ActionMailer::Preview
   # http://localhost:3000/rails/mailers/user_mailer/password_reset
   def password_reset
     user = User.first
-    user.reset_token = User.new_token
-    UserMailer.password_reset(user)
+    user.create_reset_digest
+    UserMailer.password_reset(user).deliver_now
   end
 end

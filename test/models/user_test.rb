@@ -49,7 +49,6 @@ class UserTest < ActiveSupport::TestCase
       assert_match(/UNIQUE constraint failed: users.email/, exception.message)
     end
   end  
-  
 
   test "password should be present (nonblank)" do
     @user.password = @user.password_confirmation = " " * 6
@@ -61,7 +60,19 @@ class UserTest < ActiveSupport::TestCase
     assert_not @user.valid?
   end
 
-  test  "authenticated? should return false for a user with nil digest"  do 
-    assert_not @user . authenticated? ( :remember , '' ) 
+  test "authenticated? should return false for a user with nil digest" do 
+    assert_not @user.authenticated?(:remember, '') 
   end
+
+  test "associated microposts should be destroyed" do
+    @user.save
+    @user.microposts.create!(content: "Lorem ipsum")
+    
+    # Destroy associated microposts
+    @user.microposts.destroy_all
+    
+    assert_difference 'Micropost.count', -1 do
+      @user.destroy
+    end
+  end  
 end

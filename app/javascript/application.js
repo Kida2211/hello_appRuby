@@ -3,5 +3,6 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import  "custom/menu"
 import Rails from "rails-ujs"
+import  "custom/image_upload"
 
 Rails.start()

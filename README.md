@@ -21,15 +21,18 @@ Please wait for a while until the Rails server starts and the simple browser is 
 
 Next, perform the migration to the database.
 
+clone: 
+git clone https://github.com/Kida2211/hello_appRuby.git
+
+gem install rails
+gem install bundler
+bundler install
+
 ````
 $ rails db:migrate
 ````
 
-Finally, run a test to see if it's working.
 
-````
-$ rails test
-````
 
 For more information, see [*Ruby on Rails Tutorial*](https://railstutorial.jp/)
 Please refer to.

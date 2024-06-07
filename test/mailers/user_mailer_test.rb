@@ -2,19 +2,20 @@ require "test_helper"
 
 class UserMailerTest < ActionMailer::TestCase
   test "account_activation" do
-    mail = UserMailer.account_activation
+    user = users(:michael) # Retrieve a user from fixtures, adjust as per your setup
+    mail = UserMailer.account_activation(user) # Pass the user object to the method
     assert_equal "Account activation", mail.subject
-    assert_equal ["to@example.org"], mail.to
-    assert_equal ["from@example.com"], mail.from
-    assert_match "Hi", mail.body.encoded
+    assert_equal [user.email], mail.to
+    assert_equal ["noreply@example.com"], mail.from
+    assert_match "Hi #{user.name}", mail.body.encoded
   end
 
   test "password_reset" do
-    mail = UserMailer.password_reset
+    user = users(:michael) # Retrieve a user from fixtures, adjust as per your setup
+    mail = UserMailer.password_reset(user) # Pass the user object to the method
     assert_equal "Password reset", mail.subject
-    assert_equal ["to@example.org"], mail.to
-    assert_equal ["from@example.com"], mail.from
-    assert_match "Hi", mail.body.encoded
+    assert_equal [user.email], mail.to
+    assert_equal ["noreply@example.com"], mail.from
+    assert_match "Hi #{user.name}", mail.body.encoded
   end
-
 end
